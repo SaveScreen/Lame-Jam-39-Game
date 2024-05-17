@@ -5,10 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private static Player _instance;
-    private IEnumerator coroutine;
 
     public static Player Instance { get { return _instance; } }
     public GameObject shield;
+    private bool releaseParryBool;
 
     private void Awake()
     {
@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
 // Start is called before the first frame update
 void Start()
     {
-        coroutine = ParryWindow(1f);
         shield.SetActive(false);
     }
 
@@ -34,23 +33,36 @@ void Start()
         if(Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("ding!");
-            
+            releaseParryBool = false;
             shield.SetActive(true);
-            StartCoroutine(coroutine);
-            shield.GetComponent<SpriteRenderer>().color = Color.blue;
+            StartCoroutine(ParryWindow(.1f));
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
             Debug.Log("dong!");
-            shield.SetActive(false);
-            StopCoroutine(coroutine);
+            releaseParryBool = true;
+            StartCoroutine(ParryWindow(.1f));
         }
     }
+
     private IEnumerator ParryWindow(float duration)
     {
         Debug.Log("CanParry");
         shield.GetComponent<SpriteRenderer>().color = Color.white;
         yield return new WaitForSeconds(duration);
         Debug.Log("no more parry");
+        shield.GetComponent<SpriteRenderer>().color = Color.blue;
+        if (releaseParryBool) shield.SetActive(false);
+        yield return null;
+        yield break;
+    }
+
+    public void Parry()
+    {
+
+    }
+    public void ReleaseParry()
+    {
+
     }
 }
