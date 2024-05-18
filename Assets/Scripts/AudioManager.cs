@@ -44,11 +44,13 @@ public class AudioManager : MonoBehaviour
     {
         musicChannel = GetComponents<AudioSource>()[0];
         sfxChannel = GetComponents<AudioSource>()[1];
+
+        PlayMusic(SceneManager.GetActiveScene().name);
     }
 
     //plays music based on the scenename
     //stops all previous music and sfx on scene change
-    public void PlayMusicOnSceneSchange(string sceneName)
+    public void PlayMusic(string sceneName)
     {
         StopSound(AudioManagerChannels.MusicChannel);
         StopSound(AudioManagerChannels.SFXChannel);
@@ -76,7 +78,7 @@ public class AudioManager : MonoBehaviour
             PlaySound(AudioManagerChannels.MusicChannel, titleTheme);
             break;
             }
-            case "": //idk what the scene name will be
+            case "SampleScene": //idk what the scene name will be
             {
             PlaySound(AudioManagerChannels.MusicChannel, levelTheme);
             break;
@@ -91,7 +93,7 @@ public class AudioManager : MonoBehaviour
                 musicChannelVolume = value;
                 instance.musicChannel.volume = musicChannelVolume;
                 break;
-            case 1;
+            case 1:
                 sfxChannelVolume = value;
                 instance.sfxChannel.volume = sfxChannelVolume;
                 break;
@@ -111,7 +113,7 @@ public class AudioManager : MonoBehaviour
         switch (target)
         {
             case AudioManagerChannels.MusicChannel:
-                {}musicChannel.Stop();
+                musicChannel.Stop();
                 musicChannel.clip = clip;
                 musicChannel.Play();
                 break;
