@@ -91,7 +91,7 @@ public class AudioManager : MonoBehaviour
                 musicChannelVolume = value;
                 instance.musicChannel.volume = musicChannelVolume;
                 break;
-            case 1;
+            case 1:
                 sfxChannelVolume = value;
                 instance.sfxChannel.volume = sfxChannelVolume;
                 break;

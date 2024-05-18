@@ -45,6 +45,7 @@ public class ProjectileInstanceScript : MonoBehaviour
             else
             {
                 Player.Instance.ShieldDamage(1);
+                Destroy(gameObject);
             }
 
         }
