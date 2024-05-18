@@ -4,34 +4,28 @@ using UnityEngine;
 
 public class ProjectileInstanceScript : MonoBehaviour
 {
+    private GameObject projectileManager; //This might be changed to its own object and not the projectile manager.
     private Rigidbody2D rb;
     [SerializeField] private float speed;
-    private Vector2 destination;
-    private bool isHoming;
-    private bool wasReflected;
 
     // Start is called before the first frame update
     void Start()
     {
+        projectileManager = GameObject.FindWithTag("ProjectileManager");
         rb = GetComponent<Rigidbody2D>();
 
-        Vector2 targetposition = Vector3.zero - transform.position;
-        isHoming = true;
-        wasReflected = false;
-        rb.AddForce(targetposition * speed);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isHoming)
-        {
-            
-        }
-        else 
-        {
-            
-        }
+        
+    }
+
+    void FixedUpdate()
+    {
+        Vector2 targetposition = Vector3.zero - transform.position;
+        rb.velocity += speed * Time.deltaTime * targetposition;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -42,7 +36,8 @@ public class ProjectileInstanceScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Shield"))
         {
             //Bounce off the shield
-            isHoming = false;
+            transform.SetParent(projectileManager.transform);
+            speed = 0.25f;
             ScoreController.instance.AddScoreWithMultiplier(1);
         }
 
@@ -51,6 +46,11 @@ public class ProjectileInstanceScript : MonoBehaviour
             Debug.Log("Remind me to add the death stuff");
             Destroy(gameObject);
             GameManager.instance.PlayerDead();
+        }
+
+        if (collision.gameObject.CompareTag("Projectile"))
+        {
+           Destroy(gameObject);
         }
     }
 }

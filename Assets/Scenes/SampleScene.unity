@@ -460,7 +460,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410871760}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 12, z: 0}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -531,7 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bda8d26fd1f1f994ca0ec1129c34564e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchSpeed: 2
+  launchSpeed: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1289,7 +1289,7 @@ GameObject:
   - component: {fileID: 1383430497}
   m_Layer: 0
   m_Name: Projectile Origin Point
-  m_TagString: Untagged
+  m_TagString: ProjectileManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1307,7 +1307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 5978319025739940247, guid: 35ec2ec2b986c1f42a1365bd8e91aa90, type: 3}
-  orbitSpeed: 5
+  orbitSpeed: 50
 --- !u!4 &1383430498
 Transform:
   m_ObjectHideFlags: 0
