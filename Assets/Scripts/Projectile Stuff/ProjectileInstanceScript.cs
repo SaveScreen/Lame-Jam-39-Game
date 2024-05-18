@@ -37,17 +37,20 @@ public class ProjectileInstanceScript : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         //If this hits the shield
+        //Ethan: if we want to differentiate between shield giving no score and parry giving score,
+        //       shouldn't we use something other than CompareTag since that'd require us to change obj's tag in realtime?
         if (collision.gameObject.CompareTag("Shield"))
         {
             //Bounce off the shield
             isHoming = false;
-
+            ScoreController.instance.AddScoreWithMultiplier(1);
         }
 
         if (collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("Remind me to add the death stuff");
             Destroy(gameObject);
+            GameManager.instance.PlayerDead();
         }
     }
 }
