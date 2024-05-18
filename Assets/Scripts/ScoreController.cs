@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using System.Timers;
 
 public class ScoreController : MonoBehaviour
 {
@@ -9,10 +11,12 @@ public class ScoreController : MonoBehaviour
     private float highScore;
     public float scoreValue;
 
-    [SerializeField] private int multiplierValue; //current multiplier
-    // i want multiplier value to be a float so we can make it a 1.2x multiplier for example, but it is not cooperating with the line 73 if statement unless its an int
+    [SerializeField] private float multiplierValue; //current multiplier
     public float multiplierTracker;
     public float[] multiplierThresholds;
+
+    public Slider multiplierBar;
+
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;
@@ -38,6 +42,7 @@ public class ScoreController : MonoBehaviour
     private void Start()
     {
         multiplierValue = 1;
+        multiplierBar.value = 0;
     }
 
     // Update is called once per frame
@@ -48,10 +53,19 @@ public class ScoreController : MonoBehaviour
         {
             highScore = currentScore;
         }
+        if(multiplierValue < 1)
+        {
+            multiplierValue = 1;
+        }
         scoreText.text = "Score: " + Mathf.Round(currentScore);
         highScoreText.text = "Hi-Score: " + Mathf.Round(highScore);
         multiplierText.text = "x" + multiplierValue;
         // Need to change these to use stringbuilder instead (learned it in opt and havent gotten to use it yet)
+
+        //these are not working quite right. They kinda fill up the bar, but not as smoothly as I would like
+        multiplierBar.value = multiplierTracker;
+        multiplierBar.maxValue = multiplierThresholds[(int)Mathf.Round(multiplierValue)];
+
 
 
     }
@@ -69,11 +83,10 @@ public class ScoreController : MonoBehaviour
         if (multiplierValue - 1 < multiplierThresholds.Length)
         {
             multiplierTracker++;
-
-            if(multiplierThresholds[multiplierValue - 1] <= multiplierTracker)
+            if(multiplierThresholds[(int)Mathf.Round(multiplierValue) - 1] <= multiplierTracker)
             {
                 multiplierTracker = 0;
-                multiplierValue++;
+                Mathf.Round(multiplierValue++);
             }
         }
     }
@@ -81,5 +94,9 @@ public class ScoreController : MonoBehaviour
     {
         multiplierValue = 1;
         multiplierTracker = 0;
+    }
+    public void MultiplierDecay(float amtLost)
+    {
+        multiplierValue -= amtLost;
     }
 }

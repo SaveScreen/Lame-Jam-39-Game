@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public bool isParrying;
 
     public int shieldHP = 5;
+    public GameObject glassbreak;
 
     private void Awake()
     {
@@ -24,8 +25,9 @@ public class Player : MonoBehaviour
             _instance = this;
         }
     }
-// Start is called before the first frame update
-void Start()
+    
+    // Start is called before the first frame update
+    void Start()
     {
         shield.SetActive(false);
         shieldHP = 5;
@@ -67,9 +69,18 @@ void Start()
     public void ShieldDamage(int damage)
     {
         shieldHP -= damage;
-        if(shieldHP <= 0)
+        var color = shield.GetComponent<SpriteRenderer>();
+        var tempColor = color.color;
+        tempColor.a -= .2f;
+        color.color = tempColor;
+        if(shieldHP == 1)
+        {
+            // make color flash to warn player its about to break
+        }
+        if (shieldHP <= 0)
         {
             shield.SetActive(false);
+            Instantiate(glassbreak, shield.transform.position, Quaternion.Euler(0, 0, 0));
             Debug.Log("shieldbreak");
         }
     }

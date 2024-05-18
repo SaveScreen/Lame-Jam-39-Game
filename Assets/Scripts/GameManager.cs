@@ -6,11 +6,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private Timer passiveScoreTimer;
     [SerializeField] private int totalSeconds = 0;
     [SerializeField] private int timerInterval = 1000;
 
+    [SerializeField] private int timerInterval1 = 500;
+    private Timer passiveScoreTimer1;
+
     private bool isPaused;
-    private Timer passiveScoreTimer;
+
     private GameObject playerobj;
     public GameObject deathEffect;
     public GameObject projectileThing; //this is temp till i bother to make a better way of removing projectiles + spawners on death
@@ -31,6 +35,9 @@ public class GameManager : MonoBehaviour
 
         passiveScoreTimer = new Timer(timerInterval);
         passiveScoreTimer.Elapsed += HandleSecondTick;
+
+        passiveScoreTimer1 = new Timer(timerInterval1);
+        passiveScoreTimer1.Elapsed += HandleSecondTick1;
     }
     #endregion
 
@@ -40,10 +47,23 @@ public class GameManager : MonoBehaviour
         {
             totalSeconds += 1;
             ScoreController.instance.AddScore(1);
+
         }
         else
         {
             passiveScoreTimer.Stop();
+            passiveScoreTimer1.Stop();
+        }
+    }
+    private void HandleSecondTick1(object sender, ElapsedEventArgs e)
+    {
+        if (!isPaused)
+        {
+            ScoreController.instance.MultiplierDecay(.01f);
+        }
+        else
+        {
+            passiveScoreTimer1.Stop();
         }
     }
 
@@ -51,6 +71,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         passiveScoreTimer.Start();
+        passiveScoreTimer1.Start();
         playerobj = FindObjectOfType<Player>().gameObject;
     }
 
