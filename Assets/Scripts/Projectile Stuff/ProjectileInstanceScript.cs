@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ProjectileInstanceScript : MonoBehaviour
 {
-    private GameObject projectileManager; //This might be changed to its own object and not the projectile manager.
+    private GameObject projectileOrigin;
     private Rigidbody2D rb;
     [SerializeField] private float speed;
 
     // Start is called before the first frame update
     void Start()
     {
-        projectileManager = GameObject.FindWithTag("ProjectileManager");
+        projectileOrigin = GameObject.FindWithTag("ProjectileOrigin");
         rb = GetComponent<Rigidbody2D>();
 
     }
@@ -38,7 +38,7 @@ public class ProjectileInstanceScript : MonoBehaviour
             if(Player.Instance.isParrying)
             {
                 //Bounce off the shield
-                transform.SetParent(projectileManager.transform);
+                transform.SetParent(projectileOrigin.transform);
                 speed = 0.25f;
                 ScoreController.instance.AddScoreWithMultiplier(1);
             }
