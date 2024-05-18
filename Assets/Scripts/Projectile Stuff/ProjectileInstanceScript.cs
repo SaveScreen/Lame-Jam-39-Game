@@ -35,10 +35,18 @@ public class ProjectileInstanceScript : MonoBehaviour
         //       shouldn't we use something other than CompareTag since that'd require us to change obj's tag in realtime?
         if (collision.gameObject.CompareTag("Shield"))
         {
-            //Bounce off the shield
-            transform.SetParent(projectileManager.transform);
-            speed = 0.25f;
-            ScoreController.instance.AddScoreWithMultiplier(1);
+            if(Player.Instance.isParrying)
+            {
+                //Bounce off the shield
+                transform.SetParent(projectileManager.transform);
+                speed = 0.25f;
+                ScoreController.instance.AddScoreWithMultiplier(1);
+            }
+            else
+            {
+                Player.Instance.ShieldDamage(1);
+            }
+
         }
 
         if (collision.gameObject.CompareTag("Player"))

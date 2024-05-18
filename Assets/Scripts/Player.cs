@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     public static Player Instance { get { return _instance; } }
     public GameObject shield;
     private bool releaseParryBool;
+    public bool isParrying;
+
+    public int shieldHP = 5;
 
     private void Awake()
     {
@@ -25,6 +28,7 @@ public class Player : MonoBehaviour
 void Start()
     {
         shield.SetActive(false);
+        shieldHP = 5;
     }
 
     // Update is called once per frame
@@ -42,27 +46,31 @@ void Start()
             Debug.Log("dong!");
             releaseParryBool = true;
             StartCoroutine(ParryWindow(.1f));
+            shieldHP = 5;
         }
     }
 
     private IEnumerator ParryWindow(float duration)
     {
         Debug.Log("CanParry");
+        isParrying = true;
         shield.GetComponent<SpriteRenderer>().color = Color.white;
         yield return new WaitForSeconds(duration);
         Debug.Log("no more parry");
+        isParrying = false;
         shield.GetComponent<SpriteRenderer>().color = Color.blue;
         if (releaseParryBool) shield.SetActive(false);
         yield return null;
         yield break;
     }
 
-    public void Parry()
+    public void ShieldDamage(int damage)
     {
-
-    }
-    public void ReleaseParry()
-    {
-
+        shieldHP -= damage;
+        if(shieldHP <= 0)
+        {
+            shield.SetActive(false);
+            Debug.Log("shieldbreak");
+        }
     }
 }
