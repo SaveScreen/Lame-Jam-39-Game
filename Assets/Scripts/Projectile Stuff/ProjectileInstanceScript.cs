@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ProjectileInstanceScript : MonoBehaviour
 {
+    private AudioManager audioManager;
     private GameObject projectileOrigin;
     private Rigidbody2D rb;
     [SerializeField] private float speed;
@@ -19,7 +20,9 @@ public class ProjectileInstanceScript : MonoBehaviour
         projectileOrigin = GameObject.FindWithTag("ProjectileOrigin");
         rb = GetComponent<Rigidbody2D>();
 
-        parrySource = null;
+        //parrySource = null;
+
+        audioManager = GameObject.FindGameObjectWithTag("Audio Manager").GetComponent<AudioManager>();
 
     }
 
@@ -48,7 +51,8 @@ public class ProjectileInstanceScript : MonoBehaviour
                 transform.SetParent(projectileOrigin.transform);
                 speed = 0.25f;
                 ScoreController.instance.AddScoreWithMultiplier(1);
-                parrySource = AudioManager.instance.AddSFX(parrySound, false, parrySource);
+                parrySource = audioManager.AddSFX(parrySound, false, parrySource);
+                StartCoroutine(KillParryAudioSource());
             }
             else
             {
@@ -74,5 +78,11 @@ public class ProjectileInstanceScript : MonoBehaviour
     public void DestroySelf()
     {
         Destroy(gameObject);
+    }
+
+    IEnumerator KillParryAudioSource()
+    {
+        yield return new WaitForSeconds(2f);
+        parrySource = audioManager.KillAudioSource(parrySource);
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - Shield
   - ProjectileManager
   - ProjectileOrigin
+  - Audio Manager
   layers:
   - Default
   - TransparentFX
