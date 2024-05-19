@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
         DontDestroyOnLoad(gameObject);
 
         passiveScoreTimer = new Timer(timerInterval);
@@ -74,11 +75,15 @@ public class GameManager : MonoBehaviour
         isPaused = true;
         Instantiate(deathEffect, playerobj.transform.position, Quaternion.Euler(90, 0, 0));
         playerobj.SetActive(false);
+        ProjectileManager projectileManager = projectileThing.GetComponent<ProjectileManager>();
+        projectileManager.DestroyAllProjectiles();
         projectileThing.SetActive(false);
         deathScreen.SetActive(true);
     }
     public void RestartGame()
     {
-        SceneManager.LoadScene(0);
+        deathScreen.SetActive(false);
+        playerobj.SetActive(true);
+        projectileThing.SetActive(true);
     }
 }

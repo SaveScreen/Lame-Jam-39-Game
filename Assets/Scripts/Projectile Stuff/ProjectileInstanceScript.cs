@@ -60,7 +60,6 @@ public class ProjectileInstanceScript : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Remind me to add the death stuff");
             AudioManager.instance.PlaySound(AudioManagerChannels.SFXChannel, deathSound, 1f);  
             Destroy(gameObject);
             GameManager.instance.PlayerDead();
@@ -70,5 +69,10 @@ public class ProjectileInstanceScript : MonoBehaviour
         {
            Destroy(gameObject);
         }
+    }
+
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 }

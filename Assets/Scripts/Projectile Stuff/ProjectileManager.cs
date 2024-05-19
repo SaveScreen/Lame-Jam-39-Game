@@ -11,7 +11,7 @@ public class ProjectileManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        transform.eulerAngles = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -30,5 +30,22 @@ public class ProjectileManager : MonoBehaviour
     {
         randomResult = Random.Range(1, projectile.Length);
         Instantiate(projectile[randomResult], projectileLauncher.transform.position, Quaternion.identity);
+    }
+
+    public void DestroyAllProjectiles()
+    {
+        GameObject[] projectiles = GameObject.FindGameObjectsWithTag("Projectile");
+        
+        foreach (GameObject projectile in projectiles)
+        {
+            ProjectileInstanceScript pis = projectile.GetComponent<ProjectileInstanceScript>();
+            pis.DestroySelf();
+        }
+        ResetManager();
+    }
+
+    void ResetManager()
+    {
+        transform.eulerAngles = Vector3.zero;
     }
 }

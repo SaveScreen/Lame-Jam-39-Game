@@ -70,7 +70,10 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            StopCoroutine(lastRoutine);
+            if (lastRoutine != null)
+            {
+                StopCoroutine(lastRoutine);
+            }
             chargeEffect.Stop();
             if (fullCharge)
             {

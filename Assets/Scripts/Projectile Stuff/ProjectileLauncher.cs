@@ -14,6 +14,8 @@ public class ProjectileLauncher : MonoBehaviour
         projectileManager = GetComponentInParent<ProjectileManager>();
 
         startinglaunchSpeed = launchSpeed;
+
+        projectileManager.LaunchProjectile(gameObject);
     }
 
     // Update is called once per frame
@@ -25,10 +27,5 @@ public class ProjectileLauncher : MonoBehaviour
             projectileManager.LaunchProjectile(gameObject);
             launchSpeed = startinglaunchSpeed;
         }
-    }
-
-    void FixedUpdate()
-    {
-        
     }
 }
