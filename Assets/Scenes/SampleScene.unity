@@ -673,6 +673,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3974771510722135754, guid: 700c2747ccbffc94084f5e3c2efe358f, type: 3}
+      propertyPath: m_Volume
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 5429375544302511218, guid: 700c2747ccbffc94084f5e3c2efe358f, type: 3}
       propertyPath: m_Name
       value: AudioManager
@@ -881,6 +885,9 @@ MonoBehaviour:
   isParrying: 0
   shieldHP: 5
   glassbreak: {fileID: 1355538471500182739, guid: 18217f6f42b32a74da96079c8432ca51, type: 3}
+  parryActivateClip: {fileID: 0}
+  shieldShatterClip: {fileID: 8300000, guid: 7f797207151e81f46b2ca0bbcf057db2, type: 3}
+  shieldHitSound: {fileID: 8300000, guid: 72b5649515f84ae44a2006b245790ce4, type: 3}
 --- !u!212 &883898045
 SpriteRenderer:
   m_ObjectHideFlags: 0
