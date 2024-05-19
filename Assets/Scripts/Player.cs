@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 
     public static Player Instance { get { return _instance; } }
     public GameObject shield;
+    public GameObject shieldRadius;
     private bool releaseParryBool;
     public bool isParrying;
 
@@ -17,6 +18,8 @@ public class Player : MonoBehaviour
     private bool fullCharge;
     private Vector3 tempSize;
     private Vector3 shieldSize;
+    private Vector3 tempRadius;
+    private Vector3 radiusSize;
     private Coroutine lastRoutine = null;
     public ParticleSystem chargeEffect;
     public ParticleSystem superEffect;
@@ -50,7 +53,9 @@ public class Player : MonoBehaviour
         parryActivateSource = null;
         shieldHitSource = null;
         shieldSize = shield.transform.localScale;
+        radiusSize = shieldRadius.transform.localScale;
         tempSize = shield.transform.localScale * 1.5f;
+        tempRadius = shieldRadius.transform.localScale * 1.5f;
     }
 
     // Update is called once per frame
@@ -78,6 +83,7 @@ public class Player : MonoBehaviour
                 StartCoroutine(ParryWindow(.1f));
             }
             releaseParryBool = true;
+            fullCharge = false;
             shieldHP = 5;
 
         }
@@ -92,9 +98,10 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(duration);
         //Parry is off
         isParrying = false;
-        shield.GetComponent<SpriteRenderer>().color = Color.blue;
+        shield.GetComponent<SpriteRenderer>().color = Color.cyan;
         if (releaseParryBool) shield.SetActive(false);
         shield.transform.localScale = shieldSize;
+        shieldRadius.transform.localScale = radiusSize;
         yield return null;
         yield break;
     }
@@ -106,6 +113,7 @@ public class Player : MonoBehaviour
         fullCharge = true;
         Debug.Log("fully charged!");
         chargeEffect.Stop();
+        shieldRadius.transform.localScale = tempRadius;
         yield return null;
     }
 
@@ -125,7 +133,7 @@ public class Player : MonoBehaviour
         {
             shield.SetActive(false);
             AudioManager.instance.PlaySound(AudioManagerChannels.SFXChannel, shieldShatterClip, 1f);  
-            Instantiate(glassbreak, shield.transform.position, Quaternion.Euler(0, 0, 0));
+            Instantiate(glassbreak, shield.transform.position, Quaternion.Euler(90, 0, 0));
             Debug.Log("shieldbreak");
         }
         if (shieldHP !>= 1)

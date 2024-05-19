@@ -56,6 +56,11 @@ public class ScoreController : MonoBehaviour
         {
             multiplierValue = 1;
         }
+        if(multiplierTracker < 0)
+        {
+            multiplierTracker = 0;
+        }
+            
         scoreText.text = "Score: " + Mathf.Round(currentScore);
         highScoreText.text = "Hi-Score: " + Mathf.Round(highScore);
         multiplierText.text = "x" + multiplierValue;
@@ -66,8 +71,13 @@ public class ScoreController : MonoBehaviour
         multiplierBar.maxValue = multiplierThresholds[(int)Mathf.Round(multiplierValue) - 1];
 
 
-
-    }
+        if (multiplierValue > 1)
+        {
+            MultiplierDecay(.05f * multiplierValue);
+        }
+        
+    
+}
 
     // function can be called from anywhere w/o direct reference bcs its a singleton
     // using Value instead of a preset value bcs we might want diff types of things to grant different amounts of score + multiplier will alter the amount of score recieved
@@ -103,10 +113,6 @@ public class ScoreController : MonoBehaviour
     }
     public void MultiplierDecay(float amtLost)
     {
-        multiplierTracker -= amtLost;
-        if(multiplierTracker < 0)
-        {
-            MultiplierReset();
-        }
+        multiplierTracker -= amtLost * Time.deltaTime;
     }
 }
