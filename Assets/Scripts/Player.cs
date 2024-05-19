@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public GameObject shieldRadius;
     private bool releaseParryBool;
     public bool isParrying;
+    private bool canPlaySound;
 
     public int shieldHP = 5;
     public GameObject glassbreak;
@@ -64,6 +65,7 @@ public class Player : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            canPlaySound = true;
             releaseParryBool = false;
             shield.SetActive(true);
             StartCoroutine(ParryWindow(.1f));
@@ -87,6 +89,7 @@ public class Player : MonoBehaviour
                 StartCoroutine(ParryWindow(.1f));
             }
             releaseParryBool = true;
+            canPlaySound = false;
             fullCharge = false;
             shieldHP = 5;
 
@@ -111,8 +114,8 @@ public class Player : MonoBehaviour
     private IEnumerator ShieldCharge(float duration1)
     {
         Debug.Log("charge start");
+        StartCoroutine(PlayDelayShieldSound());
         chargeEffect.Play();
-        AudioManager.instance.PlaySound(AudioManagerChannels.SFXChannel, shieldChargeSound, 1f); 
         yield return new WaitForSeconds(duration1);
         fullCharge = true;
         Debug.Log("fully charged!");
@@ -144,4 +147,15 @@ public class Player : MonoBehaviour
             shieldHitSource = AudioManager.instance.AddSFX(shieldHitSound, false, shieldHitSource);
         }
     }
+
+    IEnumerator PlayDelayShieldSound()
+    {
+        yield return new WaitForSeconds(.1f); 
+        if (!canPlaySound)
+        {
+            yield break;
+        }
+        AudioManager.instance.PlaySound(AudioManagerChannels.SFXChannel, shieldChargeSound, 1f); 
+    }
+
 }
