@@ -8,11 +8,18 @@ public class ProjectileInstanceScript : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private float speed;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip parrySound;
+    [SerializeField] private AudioClip deathSound;
+    private AudioSource parrySource;
+
     // Start is called before the first frame update
     void Start()
     {
         projectileOrigin = GameObject.FindWithTag("ProjectileOrigin");
         rb = GetComponent<Rigidbody2D>();
+
+        parrySource = null;
 
     }
 
@@ -41,6 +48,7 @@ public class ProjectileInstanceScript : MonoBehaviour
                 transform.SetParent(projectileOrigin.transform);
                 speed = 0.25f;
                 ScoreController.instance.AddScoreWithMultiplier(1);
+                parrySource = AudioManager.instance.AddSFX(parrySound, false, parrySource);
             }
             else
             {
@@ -53,6 +61,7 @@ public class ProjectileInstanceScript : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("Remind me to add the death stuff");
+            AudioManager.instance.PlaySound(AudioManagerChannels.SFXChannel, deathSound, 1f);  
             Destroy(gameObject);
             GameManager.instance.PlayerDead();
         }

@@ -14,6 +14,13 @@ public class Player : MonoBehaviour
     public int shieldHP = 5;
     public GameObject glassbreak;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip parryActivateClip;
+    [SerializeField] private AudioClip shieldShatterClip;
+    private AudioSource shieldHitSource;
+    private AudioSource parryActivateSource;
+    [SerializeField] private AudioClip shieldHitSound;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -31,6 +38,9 @@ public class Player : MonoBehaviour
     {
         shield.SetActive(false);
         shieldHP = 5;
+
+        parryActivateSource = null;
+        shieldHitSource = null;
     }
 
     // Update is called once per frame
@@ -55,6 +65,7 @@ public class Player : MonoBehaviour
         //Parry is on
         isParrying = true;
         shield.GetComponent<SpriteRenderer>().color = Color.white;
+        //parryActivateSource = AudioManager.instance.AddSFX(parryActivateClip, false, parryActivateSource);
         yield return new WaitForSeconds(duration);
         //Parry is off
         isParrying = false;
@@ -71,6 +82,7 @@ public class Player : MonoBehaviour
         var tempColor = color.color;
         tempColor.a -= .2f;
         color.color = tempColor;
+        //shieldHitSource = AudioManager.instance.AddSFX(shieldHitSound, false, shieldHitSource);
         if(shieldHP == 1)
         {
             // make color flash to warn player its about to break
@@ -78,8 +90,13 @@ public class Player : MonoBehaviour
         if (shieldHP <= 0)
         {
             shield.SetActive(false);
+            AudioManager.instance.PlaySound(AudioManagerChannels.SFXChannel, shieldShatterClip, 1f);  
             Instantiate(glassbreak, shield.transform.position, Quaternion.Euler(0, 0, 0));
             Debug.Log("shieldbreak");
+        }
+        if (shieldHP !>= 1)
+        {
+            shieldHitSource = AudioManager.instance.AddSFX(shieldHitSound, false, shieldHitSource);
         }
     }
 }
