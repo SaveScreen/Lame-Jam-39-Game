@@ -29,14 +29,23 @@ public class ProjectileManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(Vector3.back, orbitSpeed * Time.deltaTime);
-
-        launcherSpawnTimer -= Time.deltaTime;
-        if (launcherSpawnTimer <= 0f)
+        if (GameManager.instance.isPaused == false)
         {
-            Instantiate(projectileLauncher, projectileLauncherStartingPosition, Quaternion.identity, gameObject.transform);
-            launcherSpawnTimer = startingLauncherSpawnTimer;
-        }
+            transform.Rotate(Vector3.back, orbitSpeed * Time.deltaTime);
+
+            launcherSpawnTimer -= Time.deltaTime;
+            if (launcherSpawnTimer <= 0f)
+            {
+                Instantiate(projectileLauncher, projectileLauncherStartingPosition, Quaternion.identity, gameObject.transform);
+                launcherSpawnTimer = startingLauncherSpawnTimer;
+            }
+        }  
+    }
+
+    public void LaunchOnNewGame()
+    {
+        ProjectileLauncher plauncher = startingProjectileLauncher.GetComponent<ProjectileLauncher>();
+        plauncher.LaunchStart();
     }
 
     /// <summary>

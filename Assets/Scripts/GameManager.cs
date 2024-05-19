@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int totalSeconds = 0;
     [SerializeField] private int timerInterval = 1000;
 
-    private bool isPaused;
+    [HideInInspector] public bool isPaused;
     private bool forcedDelay;
 
     private GameObject playerobj;
@@ -91,6 +91,8 @@ public class GameManager : MonoBehaviour
         deathScreen.SetActive(false);
         playerobj.SetActive(true);
         projectileThing.SetActive(true);
+        ProjectileManager projectileManager = projectileThing.GetComponent<ProjectileManager>();
+        projectileManager.LaunchOnNewGame();
     }
 
     IEnumerator RestartAfterDelay()

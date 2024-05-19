@@ -27,17 +27,25 @@ public class ProjectileLauncher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        launchSpeed -= Time.deltaTime;
-        if (launchSpeed <= 0f)
+        if (GameManager.instance.isPaused == false)
         {
-            projectileManager.LaunchProjectile(gameObject);
-            launchSpeed = startinglaunchSpeed;
+            launchSpeed -= Time.deltaTime;
+            if (launchSpeed <= 0f)
+            {
+                projectileManager.LaunchProjectile(gameObject);
+                launchSpeed = startinglaunchSpeed;
+            }
         }
+        
     }
 
     public void ResetLauncher()
     {
         launchSpeed = startinglaunchSpeed;
+    }
+
+    public void LaunchStart()
+    {
         projectileManager.LaunchProjectile(gameObject);
     }
 
