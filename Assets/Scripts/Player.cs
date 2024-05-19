@@ -14,6 +14,14 @@ public class Player : MonoBehaviour
     public int shieldHP = 5;
     public GameObject glassbreak;
 
+    private bool fullCharge;
+    private Vector3 tempSize;
+    private Vector3 shieldSize;
+    private Coroutine lastRoutine = null;
+    public ParticleSystem chargeEffect;
+    public ParticleSystem superEffect;
+
+
     [Header("Audio")]
     [SerializeField] private AudioClip parryActivateClip;
     [SerializeField] private AudioClip shieldShatterClip;
@@ -41,6 +49,8 @@ public class Player : MonoBehaviour
 
         parryActivateSource = null;
         shieldHitSource = null;
+        shieldSize = shield.transform.localScale;
+        tempSize = shield.transform.localScale * 1.5f;
     }
 
     // Update is called once per frame
@@ -51,12 +61,25 @@ public class Player : MonoBehaviour
             releaseParryBool = false;
             shield.SetActive(true);
             StartCoroutine(ParryWindow(.1f));
+            lastRoutine = StartCoroutine(ShieldCharge(1f));
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            StopCoroutine(lastRoutine);
+            chargeEffect.Stop();
+            if (fullCharge)
+            {
+                shield.transform.localScale = tempSize;
+                superEffect.Play();
+                StartCoroutine(ParryWindow(.2f));
+            }
+            else
+            {
+                StartCoroutine(ParryWindow(.1f));
+            }
             releaseParryBool = true;
-            StartCoroutine(ParryWindow(.1f));
             shieldHP = 5;
+
         }
     }
 
@@ -71,8 +94,19 @@ public class Player : MonoBehaviour
         isParrying = false;
         shield.GetComponent<SpriteRenderer>().color = Color.blue;
         if (releaseParryBool) shield.SetActive(false);
+        shield.transform.localScale = shieldSize;
         yield return null;
         yield break;
+    }
+    private IEnumerator ShieldCharge(float duration1)
+    {
+        Debug.Log("charge start");
+        chargeEffect.Play();
+        yield return new WaitForSeconds(duration1);
+        fullCharge = true;
+        Debug.Log("fully charged!");
+        chargeEffect.Stop();
+        yield return null;
     }
 
     public void ShieldDamage(int damage)
