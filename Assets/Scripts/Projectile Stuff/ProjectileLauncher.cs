@@ -18,6 +18,12 @@ public class ProjectileLauncher : MonoBehaviour
         projectileManager.LaunchProjectile(gameObject);
     }
 
+    public void SetLaunchSpeed(float speed)
+    {
+        launchSpeed = speed;
+        startinglaunchSpeed = launchSpeed;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -27,5 +33,16 @@ public class ProjectileLauncher : MonoBehaviour
             projectileManager.LaunchProjectile(gameObject);
             launchSpeed = startinglaunchSpeed;
         }
+    }
+
+    public void ResetLauncher()
+    {
+        launchSpeed = startinglaunchSpeed;
+        projectileManager.LaunchProjectile(gameObject);
+    }
+
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 }

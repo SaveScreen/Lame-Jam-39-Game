@@ -4,20 +4,39 @@ using UnityEngine;
 
 public class ProjectileManager : MonoBehaviour
 {
-    [SerializeField] public GameObject[] projectile;
+    public GameObject[] projectile;
+
+    [Header("LAUNCHER PREFAB ONLY!!")]
+    [SerializeField] private GameObject projectileLauncher;
+    private GameObject startingProjectileLauncher;
+    private Vector2 projectileLauncherStartingPosition;
     private int randomResult;
+    [Header("")]
     [SerializeField] [Tooltip("The speed the projectile launcher rotates around the player (Not visible in game).")] private float orbitSpeed;
+    [SerializeField] [Tooltip("Amount of time between projectile launchers being spawned")] private float launcherSpawnTimer;
+    private float startingLauncherSpawnTimer;
 
     // Start is called before the first frame update
     void Start()
     {
+        startingProjectileLauncher = transform.GetChild(0).gameObject; //By default, there should only be one projectile launcher on the manager.
+        projectileLauncherStartingPosition = startingProjectileLauncher.transform.position;
+
         transform.eulerAngles = Vector3.zero;
+        startingLauncherSpawnTimer = launcherSpawnTimer;
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.Rotate(Vector3.back, orbitSpeed * Time.deltaTime);
+
+        launcherSpawnTimer -= Time.deltaTime;
+        if (launcherSpawnTimer <= 0f)
+        {
+            Instantiate(projectileLauncher, projectileLauncherStartingPosition, Quaternion.identity, gameObject.transform);
+            launcherSpawnTimer = startingLauncherSpawnTimer;
+        }
     }
 
     /// <summary>
@@ -32,6 +51,9 @@ public class ProjectileManager : MonoBehaviour
         Instantiate(projectile[randomResult], projectileLauncher.transform.position, Quaternion.identity);
     }
 
+    /// <summary>
+    /// Destroys all projectiles on screen and resets the manager.
+    /// </summary>
     public void DestroyAllProjectiles()
     {
         GameObject[] projectiles = GameObject.FindGameObjectsWithTag("Projectile");
@@ -41,11 +63,30 @@ public class ProjectileManager : MonoBehaviour
             ProjectileInstanceScript pis = projectile.GetComponent<ProjectileInstanceScript>();
             pis.DestroySelf();
         }
+
         ResetManager();
     }
 
     void ResetManager()
     {
         transform.eulerAngles = Vector3.zero;
+        launcherSpawnTimer = startingLauncherSpawnTimer;
+
+        //Destroys all additional launchers except for the first one.
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (i > 0)
+            {
+                GameObject plauncher = transform.GetChild(i).gameObject;
+                ProjectileLauncher plauncherScript = plauncher.GetComponent<ProjectileLauncher>();
+                plauncherScript.DestroySelf();
+            }
+            else
+            {
+                startingProjectileLauncher.transform.position = projectileLauncherStartingPosition;
+                ProjectileLauncher plauncherScript = startingProjectileLauncher.GetComponent<ProjectileLauncher>();
+                plauncherScript.ResetLauncher();
+            }
+        }
     }
 }
