@@ -56,7 +56,7 @@ public class ProjectileManager : MonoBehaviour
     /// </param>
     public void LaunchProjectile(GameObject projectileLauncher)
     {
-        randomResult = Random.Range(1, projectile.Length+1);
+        randomResult = Random.Range(0, projectile.Length);
         Instantiate(projectile[randomResult], projectileLauncher.transform.position, Quaternion.identity);
     }
 
