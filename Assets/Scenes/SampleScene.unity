@@ -1318,7 +1318,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0a499fe93d1a50439afb80f93a6bc76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 5978319025739940247, guid: 35ec2ec2b986c1f42a1365bd8e91aa90, type: 3}
+  projectile:
+  - {fileID: 5978319025739940247, guid: 35ec2ec2b986c1f42a1365bd8e91aa90, type: 3}
+  - {fileID: 5978319025739940247, guid: 14a5513cb02122843bb1f43855d86681, type: 3}
+  - {fileID: 5978319025739940247, guid: acf8dd93696fca74ab7c1f82e5fbf596, type: 3}
+  - {fileID: 5978319025739940247, guid: 01c77deb69056b9429a41eec80d219b7, type: 3}
   orbitSpeed: 20
 --- !u!4 &1383430498
 Transform:

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ProjectileManager : MonoBehaviour
 {
-    [SerializeField] private GameObject projectile;
+    [SerializeField] public GameObject[] projectile;
+    private int randomResult;
     [SerializeField] [Tooltip("The speed the projectile launcher rotates around the player (Not visible in game).")] private float orbitSpeed;
 
     // Start is called before the first frame update
@@ -27,6 +28,7 @@ public class ProjectileManager : MonoBehaviour
     /// </param>
     public void LaunchProjectile(GameObject projectileLauncher)
     {
-        Instantiate(projectile, projectileLauncher.transform.position, Quaternion.identity);
+        randomResult = Random.Range(1, projectile.Length);
+        Instantiate(projectile[randomResult], projectileLauncher.transform.position, Quaternion.identity);
     }
 }

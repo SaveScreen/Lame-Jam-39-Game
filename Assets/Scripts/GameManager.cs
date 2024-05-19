@@ -10,9 +10,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int totalSeconds = 0;
     [SerializeField] private int timerInterval = 1000;
 
-    //[SerializeField] private int timerInterval1 = 2000;
-    //private Timer passiveScoreTimer1;
-
     private bool isPaused;
 
     private GameObject playerobj;
@@ -36,8 +33,6 @@ public class GameManager : MonoBehaviour
         passiveScoreTimer = new Timer(timerInterval);
         passiveScoreTimer.Elapsed += HandleSecondTick;
 
-       //passiveScoreTimer1 = new Timer(timerInterval1);
-       //passiveScoreTimer1.Elapsed += HandleSecondTick1;
     }
     #endregion
 
@@ -52,29 +47,12 @@ public class GameManager : MonoBehaviour
         else
         {
             passiveScoreTimer.Stop();
-            //passiveScoreTimer1.Stop();
         }
     }
-
-    //Multiplier decay timer currently breaks the multiplier mechanic so im just gonna turn it off for now bcs its annoying
-    /*
-    private void HandleSecondTick1(object sender, ElapsedEventArgs e)
-    {
-        if (!isPaused)
-        {
-            ScoreController.instance.MultiplierDecay(.001f);
-        }
-        else
-        {
-            passiveScoreTimer1.Stop();
-        }
-    }
-    */
 
     private void Start()
     {
         passiveScoreTimer.Start();
-        //passiveScoreTimer1.Start();
         playerobj = FindObjectOfType<Player>().gameObject;
     }
 
