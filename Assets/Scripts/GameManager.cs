@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int timerInterval = 1000;
 
     private bool isPaused;
+    private bool forcedDelay;
 
     private GameObject playerobj;
     public GameObject deathEffect;
@@ -63,7 +64,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (!playerobj.activeSelf && Input.GetKeyDown(KeyCode.Space))
+        if (!playerobj.activeSelf && Input.GetKeyDown(KeyCode.Space) && !forcedDelay)
         {
             restartButton.onClick.Invoke();
         }
@@ -72,6 +73,7 @@ public class GameManager : MonoBehaviour
     public void PlayerDead()
     {
         isPaused = true;
+        StartCoroutine(RestartAfterDelay());
         Instantiate(deathEffect, playerobj.transform.position, Quaternion.Euler(90, 0, 0));
         playerobj.SetActive(false);
         ProjectileManager projectileManager = projectileThing.GetComponent<ProjectileManager>();
@@ -89,5 +91,12 @@ public class GameManager : MonoBehaviour
         deathScreen.SetActive(false);
         playerobj.SetActive(true);
         projectileThing.SetActive(true);
+    }
+
+    IEnumerator RestartAfterDelay()
+    {
+        forcedDelay = true;
+        yield return new WaitForSeconds(1f);
+        forcedDelay = false;
     }
 }
