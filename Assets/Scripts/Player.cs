@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     private AudioSource shieldHitSource;
     private AudioSource parryActivateSource;
     [SerializeField] private AudioClip shieldHitSound;
+    [SerializeField] private AudioClip shieldChargeSound;
 
     private void Awake()
     {
@@ -97,12 +98,11 @@ public class Player : MonoBehaviour
         //Parry is on
         isParrying = true;
         shield.GetComponent<SpriteRenderer>().color = Color.white;
-        //parryActivateSource = AudioManager.instance.AddSFX(parryActivateClip, false, parryActivateSource);
         yield return new WaitForSeconds(duration);
         //Parry is off
         isParrying = false;
-        shield.GetComponent<SpriteRenderer>().color = Color.cyan;
-        if (releaseParryBool) shield.SetActive(false);
+        shield.GetComponent<SpriteRenderer>().color = Color.cyan; 
+        if (releaseParryBool) shield.SetActive(false); 
         shield.transform.localScale = shieldSize;
         shieldRadius.transform.localScale = radiusSize;
         yield return null;
@@ -112,6 +112,7 @@ public class Player : MonoBehaviour
     {
         Debug.Log("charge start");
         chargeEffect.Play();
+        AudioManager.instance.PlaySound(AudioManagerChannels.SFXChannel, shieldChargeSound, 1f); 
         yield return new WaitForSeconds(duration1);
         fullCharge = true;
         Debug.Log("fully charged!");
@@ -127,7 +128,6 @@ public class Player : MonoBehaviour
         var tempColor = color.color;
         tempColor.a -= .2f;
         color.color = tempColor;
-        //shieldHitSource = AudioManager.instance.AddSFX(shieldHitSound, false, shieldHitSource);
         if(shieldHP == 1)
         {
             // make color flash to warn player its about to break

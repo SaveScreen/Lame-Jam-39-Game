@@ -1182,6 +1182,7 @@ MonoBehaviour:
   parryActivateClip: {fileID: 0}
   shieldShatterClip: {fileID: 8300000, guid: 7f797207151e81f46b2ca0bbcf057db2, type: 3}
   shieldHitSound: {fileID: 8300000, guid: 72b5649515f84ae44a2006b245790ce4, type: 3}
+  shieldChargeSound: {fileID: 8300000, guid: 040ef186c49b93b4d8541cf1d5b33beb, type: 3}
 --- !u!212 &883898045
 SpriteRenderer:
   m_ObjectHideFlags: 0
