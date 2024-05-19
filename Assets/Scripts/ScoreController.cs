@@ -17,7 +17,6 @@ public class ScoreController : MonoBehaviour
 
     public Slider multiplierBar;
 
-
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highScoreText;
     public TextMeshProUGUI multiplierText;
@@ -64,7 +63,7 @@ public class ScoreController : MonoBehaviour
 
         //these are not working quite right. They kinda fill up the bar, but not as smoothly as I would like
         multiplierBar.value = multiplierTracker;
-        multiplierBar.maxValue = multiplierThresholds[(int)Mathf.Round(multiplierValue)];
+        multiplierBar.maxValue = multiplierThresholds[(int)Mathf.Round(multiplierValue) - 1];
 
 
 
@@ -78,17 +77,24 @@ public class ScoreController : MonoBehaviour
     }
     public void AddScoreWithMultiplier(float Value)
     {
-        currentScore = currentScore + Mathf.Round(Value * multiplierValue);
 
         if (multiplierValue - 1 < multiplierThresholds.Length)
         {
             multiplierTracker++;
-            if(multiplierThresholds[(int)Mathf.Round(multiplierValue) - 1] <= multiplierTracker)
+            if (multiplierThresholds[(int)Mathf.Round(multiplierValue) - 1] <= multiplierTracker)
             {
                 multiplierTracker = 0;
                 Mathf.Round(multiplierValue++);
             }
         }
+        if(multiplierValue - 1 > multiplierThresholds.Length)
+        {
+            Debug.Log("max multiplier reached");
+            return;
+        }
+
+        currentScore = currentScore + Mathf.Round(Value * multiplierValue);
+
     }
     public void MultiplierReset()
     {
@@ -97,6 +103,10 @@ public class ScoreController : MonoBehaviour
     }
     public void MultiplierDecay(float amtLost)
     {
-        multiplierValue -= amtLost;
+        multiplierTracker -= amtLost;
+        if(multiplierTracker < 0)
+        {
+            MultiplierReset();
+        }
     }
 }

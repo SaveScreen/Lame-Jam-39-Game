@@ -38,14 +38,12 @@ public class Player : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("ding!");
             releaseParryBool = false;
             shield.SetActive(true);
             StartCoroutine(ParryWindow(.1f));
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            Debug.Log("dong!");
             releaseParryBool = true;
             StartCoroutine(ParryWindow(.1f));
             shieldHP = 5;
@@ -54,11 +52,11 @@ public class Player : MonoBehaviour
 
     private IEnumerator ParryWindow(float duration)
     {
-        Debug.Log("CanParry");
+        //Parry is on
         isParrying = true;
         shield.GetComponent<SpriteRenderer>().color = Color.white;
         yield return new WaitForSeconds(duration);
-        Debug.Log("no more parry");
+        //Parry is off
         isParrying = false;
         shield.GetComponent<SpriteRenderer>().color = Color.blue;
         if (releaseParryBool) shield.SetActive(false);
