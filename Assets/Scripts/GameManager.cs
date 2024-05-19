@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject projectileThing; //this is temp till i bother to make a better way of removing projectiles + spawners on death
     public static GameManager instance { get; private set; }
+
     // Singleton mode activated
     #region //singleton region
     void Awake()
@@ -80,8 +79,13 @@ public class GameManager : MonoBehaviour
         projectileThing.SetActive(false);
         deathScreen.SetActive(true);
     }
+
     public void RestartGame()
     {
+        isPaused = false;
+        passiveScoreTimer.Start();
+        ScoreController.instance.MultiplierReset();
+        ScoreController.instance.ResetScore();
         deathScreen.SetActive(false);
         playerobj.SetActive(true);
         projectileThing.SetActive(true);

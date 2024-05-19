@@ -61,9 +61,9 @@ public class ScoreController : MonoBehaviour
             multiplierTracker = 0;
         }
             
-        scoreText.text = "Score: " + Mathf.Round(currentScore);
-        highScoreText.text = "Hi-Score: " + Mathf.Round(highScore);
-        multiplierText.text = "x" + multiplierValue;
+        scoreText.text = "Score: " + Mathf.Round(currentScore).ToString();
+        highScoreText.text = "Hi-Score: " + Mathf.Round(highScore).ToString();
+        multiplierText.text = "x" + multiplierValue.ToString();
         // Need to change these to use stringbuilder instead (learned it in opt and havent gotten to use it yet)
 
         //these are not working quite right. They kinda fill up the bar, but not as smoothly as I would like
@@ -111,6 +111,12 @@ public class ScoreController : MonoBehaviour
         multiplierValue = 1;
         multiplierTracker = 0;
     }
+
+    public void ResetScore()
+    {
+        currentScore = 0;
+    }
+
     public void MultiplierDecay(float amtLost)
     {
         multiplierTracker -= amtLost * Time.deltaTime;
