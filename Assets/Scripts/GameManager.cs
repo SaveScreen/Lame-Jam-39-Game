@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    private AudioManager audioManager;
     private Timer passiveScoreTimer;
     [SerializeField] private int totalSeconds = 0;
     [SerializeField] private int timerInterval = 1000;
@@ -58,6 +59,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio Manager").GetComponent<AudioManager>();
         passiveScoreTimer.Start();
         playerobj = FindObjectOfType<Player>().gameObject;
         deathScreen.SetActive(false);
@@ -93,6 +95,7 @@ public class GameManager : MonoBehaviour
         projectileThing.SetActive(true);
         ProjectileManager projectileManager = projectileThing.GetComponent<ProjectileManager>();
         projectileManager.LaunchOnNewGame();
+        AudioManager.instance.PlayMusic("SampleScene");
     }
 
     IEnumerator RestartAfterDelay()
