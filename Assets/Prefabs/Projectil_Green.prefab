@@ -4928,7 +4928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e89fe214f54174f8403f024ba890a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.1
+  speed: 0.15
   parrySound: {fileID: 8300000, guid: d0470c6d551d49f4597d2befdbc465ef, type: 3}
   deathSound: {fileID: 8300000, guid: 18f3ba571fa139349b3f148574392970, type: 3}
 --- !u!58 &5887070743418529101

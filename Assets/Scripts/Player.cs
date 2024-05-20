@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public int shieldHP = 5;
     public GameObject glassbreak;
 
-    private bool fullCharge;
+    public bool fullCharge;
     private Vector3 tempSize;
     private Vector3 shieldSize;
     private Vector3 tempRadius;
@@ -90,7 +90,7 @@ public class Player : MonoBehaviour
             }
             releaseParryBool = true;
             canPlaySound = false;
-            fullCharge = false;
+
             shieldHP = 5;
 
         }
@@ -108,6 +108,7 @@ public class Player : MonoBehaviour
         if (releaseParryBool) shield.SetActive(false); 
         shield.transform.localScale = shieldSize;
         shieldRadius.transform.localScale = radiusSize;
+        fullCharge = false;
         yield return null;
         yield break;
     }

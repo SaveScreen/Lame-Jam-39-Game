@@ -26,12 +26,6 @@ public class ProjectileInstanceScript : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void FixedUpdate()
     {
         Vector2 targetposition = Vector3.zero - transform.position;
@@ -48,15 +42,30 @@ public class ProjectileInstanceScript : MonoBehaviour
             if(Player.Instance.isParrying)
             {
                 //Bounce off the shield
-                transform.SetParent(projectileOrigin.transform);
-                speed = 0.25f;
-                ScoreController.instance.AddScoreWithMultiplier(1);
-                parrySource = audioManager.AddSFX(parrySound, false, parrySource);
-                StartCoroutine(KillParryAudioSource());
+                if (Player.Instance.fullCharge)
+                {
+                    transform.SetParent(projectileOrigin.transform);
+                    speed = 0.8f;
+                    ScoreController.instance.AddScoreWithMultiplier(2);
+                    parrySource = audioManager.AddSFX(parrySound, false, parrySource);
+                    StartCoroutine(KillParryAudioSource());
+                    Debug.Log("I got big parried");
+                }
+                else
+                {
+                    transform.SetParent(projectileOrigin.transform);
+                    speed = 0.25f;
+                    ScoreController.instance.AddScoreWithMultiplier(1);
+                    parrySource = audioManager.AddSFX(parrySound, false, parrySource);
+                    StartCoroutine(KillParryAudioSource());
+                }
+
+
             }
             else
             {
                 Player.Instance.ShieldDamage(1);
+                ScoreController.instance.MultiplierDecrease(1);
                 Destroy(gameObject);
             }
 
@@ -67,6 +76,7 @@ public class ProjectileInstanceScript : MonoBehaviour
             AudioManager.instance.PlaySound(AudioManagerChannels.SFXChannel, deathSound, 1f);  
             Destroy(gameObject);
             GameManager.instance.PlayerDead();
+            parrySource = audioManager.KillAudioSource(parrySource);
         }
 
         if (collision.gameObject.CompareTag("Projectile"))

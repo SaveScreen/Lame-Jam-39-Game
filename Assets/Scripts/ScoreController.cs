@@ -55,12 +55,11 @@ public class ScoreController : MonoBehaviour
         if(multiplierValue < 1)
         {
             multiplierValue = 1;
+
         }
-        if(multiplierTracker < 0)
-        {
-            multiplierTracker = 0;
-        }
-            
+        
+
+        
         scoreText.text = "Score: " + Mathf.Round(currentScore).ToString();
         highScoreText.text = "Hi-Score: " + Mathf.Round(highScore).ToString();
         multiplierText.text = "x" + multiplierValue.ToString();
@@ -81,11 +80,21 @@ public class ScoreController : MonoBehaviour
 
         if (multiplierValue > 1)
         {
-            MultiplierDecay(.05f * multiplierValue);
+            if (multiplierTracker < 0)
+            {
+                multiplierTracker = 0;
+            }
+            else
+            {
+                MultiplierDecay(.05f * multiplierValue);
+            }
+
         }
-        
-    
-}
+        //this is meant to check if the multiplier tracker goes below 0 while the multiplier is above 1, decrease the multiplier level by 1 & make the multiplier bar just barely below its maximum. but its not working and wasting time rn
+
+
+
+    }
 
     // function can be called from anywhere w/o direct reference bcs its a singleton
     // using Value instead of a preset value bcs we might want diff types of things to grant different amounts of score + multiplier will alter the amount of score recieved
@@ -101,7 +110,7 @@ public class ScoreController : MonoBehaviour
             multiplierTracker++;
             if (multiplierThresholds[(int)Mathf.Round(multiplierValue) - 1] <= multiplierTracker)
             {
-                multiplierTracker = 0;
+                multiplierTracker = 1;
                 Mathf.Round(multiplierValue++);
             }
         }
@@ -119,6 +128,16 @@ public class ScoreController : MonoBehaviour
         multiplierValue = 1;
         multiplierTracker = 0;
     }
+    public void MultiplierDecrease(int amt)
+    {
+        multiplierTracker -= amt;
+        if (multiplierValue > 1 && multiplierTracker < 0)
+        {
+            multiplierValue = multiplierValue - 1;
+            multiplierTracker = multiplierThresholds[(int)Mathf.Round(multiplierValue) - 1] - .5f;
+        }
+    }
+        
 
     public void ResetScore()
     {
@@ -128,5 +147,10 @@ public class ScoreController : MonoBehaviour
     public void MultiplierDecay(float amtLost)
     {
         multiplierTracker -= amtLost * Time.deltaTime;
+        if (multiplierValue > 1 && multiplierTracker < 0)
+        {
+            multiplierValue = multiplierValue - 1;
+            multiplierTracker = multiplierThresholds[(int)Mathf.Round(multiplierValue) - 1] - .5f;
+        }
     }
 }
