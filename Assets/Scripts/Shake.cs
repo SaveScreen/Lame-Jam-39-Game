@@ -25,9 +25,9 @@ public class Shake : MonoBehaviour
     }
     public void Shakeify(float speed)
     {
-        if(speed < 1)
+        if(speed1 < 1)
         {
-            speed = 0;
+            speed1 = 0;
         }
         speed1 = speed1 + speed;
         isShaking = true;
