@@ -14,6 +14,7 @@ public class MenuScript : MonoBehaviour
     public void PlayGame()
     {
         SceneManager.LoadScene("SampleScene");
+        AudioManager.instance.PlayMusic("SampleScene");
     }
 
     public void ExitGame()

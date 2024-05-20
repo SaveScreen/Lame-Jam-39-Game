@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicChannel: {fileID: 8108338539668227079}
   sfxChannel: {fileID: -3974771510722135754}
-  titleTheme: {fileID: 0}
+  titleTheme: {fileID: 8300000, guid: 2939e111e7699234aabfc38b00f5e966, type: 3}
   levelTheme: {fileID: 8300000, guid: 7dd762d2f992a644fb28ab4d503ae3ce, type: 3}
   gameOverTheme: {fileID: 0}
   soundEffectSources: []
