@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -96,6 +97,7 @@ public class GameManager : MonoBehaviour
         ProjectileManager projectileManager = projectileThing.GetComponent<ProjectileManager>();
         projectileManager.LaunchOnNewGame();
         AudioManager.instance.PlayMusic("SampleScene");
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     IEnumerator RestartAfterDelay()
